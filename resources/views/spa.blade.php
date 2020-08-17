@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{mix('css/app.css')}}">
     <link href="https://unpkg.com/nprogress@0.2.0/nprogress.css" rel="stylesheet" />
     <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
-    <title>Vue SPA Demo</title>
+    <title>{{env('APP_NAME')}}</title>
 </head>
 <body>
 <div id="app">
