@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class MeasurmentUnitTest extends TestCase
@@ -12,6 +14,7 @@ class MeasurmentUnitTest extends TestCase
 
     public function testCanAddMeasurmentUnit()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $this->withoutExceptionHandling();
         $data = factory('App\MeasurmentUnit')->raw();
         $this->post('api/measurment-units', $data)
@@ -21,6 +24,7 @@ class MeasurmentUnitTest extends TestCase
 
     public function testCanShowAMeasurmentUnit()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $data = factory('App\MeasurmentUnit')->create();
         $this->get("api/measurment-units/$data->id")
             ->assertStatus(200)
@@ -38,6 +42,7 @@ class MeasurmentUnitTest extends TestCase
 
     public function testCanUpdateAnMeasurmentUnit()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $this->withoutExceptionHandling();
         $data = factory('App\MeasurmentUnit')->create();
         $new_data = ['name' => 'hej'];
@@ -55,6 +60,7 @@ class MeasurmentUnitTest extends TestCase
 
     public function testCanDeleteAMeasurmentUnit()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         //$this->withoutExceptionHandling();
         $data = factory('App\MeasurmentUnit')->create();
         $this->delete("api/measurment-units/$data->id")
@@ -65,6 +71,7 @@ class MeasurmentUnitTest extends TestCase
 
     public function testCanShowAllMeasurmentUnits()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         factory('App\MeasurmentUnit', '10')->create();
         $this->get('api/measurment-units')
             ->assertStatus(200)

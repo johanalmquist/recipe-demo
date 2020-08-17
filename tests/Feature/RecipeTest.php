@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 class RecipeTest extends TestCase
 {
@@ -16,6 +18,7 @@ class RecipeTest extends TestCase
      */
     public function testCanAddRecipes()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $this->withoutExceptionHandling();
         $data = [
             'name' => $name = 'Minna hammbugre',
@@ -37,6 +40,7 @@ class RecipeTest extends TestCase
     }
 
     public function testRecipeMustHaveName(){
+        Sanctum::actingAs(factory(User::class)->create());
         //$this->withoutExceptionHandling();
         $data = [
             'how_to' => 'jfdkfhkjdhfkjdhjkdh',
@@ -49,6 +53,7 @@ class RecipeTest extends TestCase
 
     public function testRecipeMustHaveHowTo()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         //$this->withoutExceptionHandling();
         $data = [
             'name' => 'jfdkfhkjdhfkjdhjkdh',
@@ -59,6 +64,7 @@ class RecipeTest extends TestCase
             ->assertSessionHasErrors(['how_to']);
     }
     public function testRecipeMustHaveDuration(){
+        Sanctum::actingAs(factory(User::class)->create());
         $data = [
             'name' => 'jfdkfhkjdhfkjdhjkdh',
             'how_to' => '50'
@@ -70,6 +76,7 @@ class RecipeTest extends TestCase
 
     public function testCanShowRecpie()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $data = factory('App\Recipe')->create();
         $this->get("api/recipes/{$data->id}")
             ->assertJsonStructure([
@@ -83,6 +90,7 @@ class RecipeTest extends TestCase
 
     public function testCanUpdateARecpie()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $this->withoutExceptionHandling();
         $data = factory('App\Recipe')->create();
         $new_data = [
@@ -101,6 +109,7 @@ class RecipeTest extends TestCase
 
     public function testCanDeleteARecpie()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $data = factory('App\Recipe')->create();
         $this->delete("api/recipes/$data->id")
             ->assertStatus(204);

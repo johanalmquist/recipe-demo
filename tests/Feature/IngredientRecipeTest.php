@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class IngredientRecipeTest extends TestCase
@@ -12,6 +14,7 @@ class IngredientRecipeTest extends TestCase
 
     public function testCanAddIngredient()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $this->withoutExceptionHandling();
         $recipe = factory('App\Recipe')->create();
         $meas = factory('App\MeasurmentUnit')->create();
@@ -38,6 +41,7 @@ class IngredientRecipeTest extends TestCase
 
     public function testCanShowAllIngredientForARecipe()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $this->withoutExceptionHandling();
         $recipe = factory('App\Recipe')->create();
         $meas = factory('App\MeasurmentUnit')->create();
@@ -59,6 +63,7 @@ class IngredientRecipeTest extends TestCase
 
     public function testCanShowAOneIngredientForARecipe()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $recipe = factory('App\Recipe')->create();
         $meas = factory('App\MeasurmentUnit')->create();
         $data = [
@@ -84,6 +89,7 @@ class IngredientRecipeTest extends TestCase
 
     public function testCanUpdateAIngredientForAReacipe()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $this->withoutExceptionHandling();
         $recipe = factory('App\Recipe')->create();
         $meas = factory('App\MeasurmentUnit')->create();
@@ -112,6 +118,7 @@ class IngredientRecipeTest extends TestCase
 
     public function testCanDeleteAIngredient()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $recipe = factory('App\Recipe')->create();
         $meas = factory('App\MeasurmentUnit')->create();
         $data = [
