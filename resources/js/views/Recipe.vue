@@ -11,10 +11,12 @@
                 </div>
             </div>
         </div>
+        <pagination :data="recipes" @pagination-change-page="getRecipes"></pagination>
     </div>
 </template>
 
 <script>
+
     export default {
         name: "Recipe",
         data: function () {
@@ -24,15 +26,14 @@
             }
         },
         mounted() {
-            axios.get('api/recipes')
-                .then(response => {
-                    this.recipes = response.data
-                });
-            this.feating = !this.feating;
+            this.getRecipes()
         },
         methods: {
-            getRecipes(){
-
+            getRecipes(page = 1){
+                axios.get('api/recipes?page='+ page)
+                    .then(response => {
+                        this.recipes = response.data
+                    });
             }
         },
     }
