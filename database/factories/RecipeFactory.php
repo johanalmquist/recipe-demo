@@ -10,6 +10,7 @@ $factory->define(Recipe::class, function (Faker $faker) {
         'name' => $name = $faker->userName,
         'slug' => \Illuminate\Support\Str::slug($name),
         'how_to' => $faker->sentence,
-        'duration' => $faker->time('H')
+        'duration' => $faker->time('H'),
+        'desctiption' => $faker->sentence
     ];
 });

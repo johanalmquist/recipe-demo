@@ -11,8 +11,7 @@ window.Vue = require('vue');
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 import App from './views/App'
 import Hello from './views/Hello'

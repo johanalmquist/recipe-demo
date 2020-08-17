@@ -1,3 +1,11 @@
 <template>
-    <p>This is the homepage</p>
+    <div>
+        <Recipe></Recipe>
+    </div>
 </template>
+<script>
+    import Recipe from "./Recipe";
+    export default {
+        components: {Recipe}
+    }
+</script>
