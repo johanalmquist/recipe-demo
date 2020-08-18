@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -16,14 +17,19 @@ Vue.use(VueRouter);
 import App from './views/App'
 import Hello from './views/Hello'
 import Home from './views/Home'
+import Recipe from "./views/Recipe";
 
 const router = new VueRouter({
-    mode: 'history',
+    mode: 'hash',
     routes: [
         {
             path: '/',
             name: 'home',
             component: Home
+        },
+        {
+            path: '/recipe/:id',
+            component: Recipe
         },
         {
             path: '/hello',

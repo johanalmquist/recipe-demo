@@ -1,41 +1,77 @@
 <template>
     <div>
         <div class="row">
-            <div class="card col-md-5 col-lg-4 mt-3" v-for="recipe in recipes.data" :key="recipe.id">
-                <img class="card-img-top" src="https://via.placeholder.com/100x70" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">{{recipe.name}}</h5>
-                    <span class="badge badge-pill badge-dark">{{recipe.duration}} minuter</span>
-                    <p class="card-text">{{recipe.desctiption}}</p>
-                    <a href="#" class="btn btn-primary">Visa recpet</a>
-                </div>
+            <div class="col-md-8 col-lg-8 col-sm-8">
+                <h1>{{recipe.name}}</h1>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-4">
+                <router-link to="/">Tillbaka till lista</router-link>
             </div>
         </div>
-        <pagination :data="recipes" @pagination-change-page="getRecipes"></pagination>
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <img src="https://via.placeholder.com/1400x600" class="img-fluid">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <h3>
+                    <small class="text-muted">{{recipe.desctiption}}</small>
+                </h3>
+            </div>
+        </div>
+        <div class="border-top my-3"></div>
+        <div class="row">
+            <div class="col-md-4 col-lg-4">
+                <h4 class="text-uppercase">Ingredienser:</h4>
+                <p v-for="ing in ingredients" :key="ing.id">
+                    {{ing.amount}} <measur-unit-component :id="ing.measurment_unit_id"></measur-unit-component> {{ing.name}}
+                </p>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <h4 class="text-uppercase">Gör så här:</h4>
+                {{recipe.how_to}}
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-
+    import MeasurUnitComponent from "../components/MeasurUnitComponent";
     export default {
         name: "Recipe",
+        components: {MeasurUnitComponent},
         data: function () {
             return {
-                recipes: [],
-                feating: true
+                id: this.$route.params.id,
+                recipe: [],
+                ingredients: {},
+                name: "",
             }
-        },
-        mounted() {
-            this.getRecipes()
         },
         methods: {
-            getRecipes(page = 1){
-                axios.get('api/recipes?page='+ page)
+            getRecipe(id) {
+                axios.get('http://recept.test/api/recipes/' + id)
                     .then(response => {
-                        this.recipes = response.data
+                        this.recipe = response.data
                     });
-            }
+            },
+            getingredients(recipe){
+                axios.get('http://recept.test/api/ingredients/recipe/' + recipe)
+                    .then(response => {
+                        this.ingredients = response.data.data
+                    })
+            },
         },
+        created() {
+            this.getRecipe(this.id)
+            this.getingredients(this.id)
+        },
+        computed: {
+            measurUnit(){
+                return "Hello!"
+            }
+        }
     }
 </script>
 

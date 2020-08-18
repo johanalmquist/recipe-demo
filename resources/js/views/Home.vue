@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-    import Recipe from "./Recipe";
+    import Recipe from "./Recipes";
     export default {
         components: {Recipe}
     }
