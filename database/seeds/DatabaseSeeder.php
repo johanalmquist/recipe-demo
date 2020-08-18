@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(MeasurmentUnitSeeder::class);
         $this->call(RecipeSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }

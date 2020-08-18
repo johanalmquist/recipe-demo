@@ -3,6 +3,7 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import Admin from "./views/admin/Admin";
 
 
 require('./bootstrap');
@@ -15,9 +16,9 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
 import App from './views/App'
-import Hello from './views/Hello'
 import Home from './views/Home'
 import Recipe from "./views/Recipe";
+import Login from "./views/Login";
 
 const router = new VueRouter({
     mode: 'hash',
@@ -25,19 +26,25 @@ const router = new VueRouter({
         {
             path: '/',
             name: 'home',
-            component: Home
+            component: Home,
         },
         {
             path: '/recipe/:id',
             component: Recipe
         },
         {
-            path: '/hello',
-            name: 'hello',
-            component: Hello,
+            path: '/login',
+            name: 'login',
+            component: Login,
         },
+        {
+            path: '/admin',
+            name: 'admin',
+            component: Admin,
+        }
     ],
 });
+
 
 const app = new Vue({
     el: '#app',

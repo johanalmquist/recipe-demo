@@ -13,7 +13,7 @@
         },
         methods: {
             getUnitName(id){
-                axios.get('http://recept.test/api/measurment-units/' + id)
+                axios.get('api/measurment-units/' + id)
                     .then(response => {
                         this.name = response.data.data.name
                     })

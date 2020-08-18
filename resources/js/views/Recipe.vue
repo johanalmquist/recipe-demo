@@ -52,13 +52,13 @@
         },
         methods: {
             getRecipe(id) {
-                axios.get('http://recept.test/api/recipes/' + id)
+                axios.get('api/recipes/' + id)
                     .then(response => {
                         this.recipe = response.data
                     });
             },
             getingredients(recipe){
-                axios.get('http://recept.test/api/ingredients/recipe/' + recipe)
+                axios.get('api/ingredients/recipe/' + recipe)
                     .then(response => {
                         this.ingredients = response.data.data
                     })

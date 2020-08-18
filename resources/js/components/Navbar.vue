@@ -11,7 +11,10 @@
                     <router-link class="nav-link" :to="{ name: 'home' }">Hem</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" :to="{ name: 'hello' }">Logga in</router-link>
+                    <router-link class="nav-link" :to="{ name: 'login' }">Logga in</router-link>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" @click.prevent="logout">Logga ut</a>
                 </li>
             </ul>
         </div>
@@ -20,7 +23,16 @@
 
 <script>
     export default {
-        name: "Navbar"
+        name: "Navbar",
+        methods: {
+            logout(){
+                axios.post('logout')
+                    .then(res => {
+                        localStorage.removeItem('isLoggedIn');
+                        this.$router.push({name: 'login'})
+                    })
+            }
+        }
     }
 </script>
 
