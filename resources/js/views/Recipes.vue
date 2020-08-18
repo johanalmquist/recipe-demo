@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div v-if="loading" class="my-auto mx-auto">
+            <spinner-component></spinner-component>
+        </div>
         <div class="row">
                 <recipe-component :recipe="recipe" v-for="recipe in recipes.data" :key="recipe.id"></recipe-component>
         </div>
@@ -8,14 +11,15 @@
 </template>
 
 <script>
+    import SpinnerComponent from "../components/SpinnerComponent";
     import RecipeComponent from "../components/RecipeComponent";
     export default {
         name: "Recipes",
-        components: {RecipeComponent},
+        components: {SpinnerComponent, RecipeComponent},
         data: function () {
             return {
                 recipes: {},
-                feating: true
+                loading: true
             }
         },
         mounted() {
@@ -26,6 +30,7 @@
                 axios.get('api/recipes?page='+ page)
                     .then(response => {
                         this.recipes = response.data
+                        this.loading = !this.loading
                     });
             }
         },

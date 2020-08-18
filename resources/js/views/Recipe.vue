@@ -47,6 +47,7 @@
                 recipe: [],
                 ingredients: {},
                 name: "",
+                loading: true
             }
         },
         methods: {
