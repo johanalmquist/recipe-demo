@@ -7,6 +7,7 @@ use App\Http\Resources\RecipeCollection;
 use App\Ingredient;
 use App\Recipe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RecipeController extends Controller
 {
@@ -36,10 +37,13 @@ class RecipeController extends Controller
     {
         $request->validate([
            'name' => 'required',
-            'how_to' => 'required',
             'duration' => 'required'
         ]);
-        Recipe::create($request->all());
+        $recipe = new Recipe();
+        $recipe->name = $request->name;
+        $recipe->slug = Str::slug($request->name);
+        $recipe->duration = $request->duration;
+        $recipe->save();
     }
 
     /**

@@ -18,7 +18,7 @@ class CreateRecipesTable extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->text('desctiption')->nullable();
-            $table->text('how_to');
+            $table->text('how_to')->nullable();
             $table->string('image')->default('food.jpg');
             $table->string('duration');
             $table->timestamps();

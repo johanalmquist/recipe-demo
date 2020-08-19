@@ -3,7 +3,7 @@
         <div v-if="loading" class="my-auto mx-auto">
             <spinner-component></spinner-component>
         </div>
-        <div class="row">
+        <div class="row" v-if="!loading">
                 <recipe-component :recipe="recipe" v-for="recipe in recipes.data" :key="recipe.id"></recipe-component>
         </div>
         <pagination :data="recipes" @pagination-change-page="getRecipes"></pagination>
@@ -29,8 +29,9 @@
             getRecipes(page = 1){
                 axios.get('api/recipes?page='+ page)
                     .then(response => {
+                        this.loading = true
                         this.recipes = response.data
-                        this.loading = !this.loading
+                        this.loading = false
                     });
             }
         },

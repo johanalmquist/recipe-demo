@@ -12,16 +12,22 @@ window.Vue = require('vue');
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
+
+import Vue from 'vue'
+import {HasError, AlertError } from 'vform'
+
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+//Router Stuff
 import VueRouter from 'vue-router'
 Vue.use(VueRouter);
-
 import App from './views/App'
 import Home from './views/Home'
 import Recipe from "./views/Recipe";
 import Login from "./views/Login";
 
 const router = new VueRouter({
-    mode: 'hash',
+    mode: 'history',
     routes: [
         {
             path: '/',
