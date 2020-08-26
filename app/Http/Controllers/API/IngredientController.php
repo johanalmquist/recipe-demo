@@ -94,7 +94,7 @@ class IngredientController extends Controller
      */
     public function destroy(Recipe $recipe, Ingredient $ingredient)
     {
-        $recipe->ingredient()->delete($ingredient);
+        $ingredient->delete();
         return response(null, 200);
     }
 }

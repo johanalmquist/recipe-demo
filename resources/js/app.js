@@ -4,11 +4,21 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 import Admin from "./views/admin/Admin";
+import VueProgressBar from 'vue-progressbar'
 
 
 require('./bootstrap');
 
 window.Vue = require('vue');
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '50px'
+})
+
+import Swal from 'sweetalert2'
+window.swal = Swal
+
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
@@ -25,6 +35,7 @@ import App from './views/App'
 import Home from './views/Home'
 import Recipe from "./views/Recipe";
 import Login from "./views/Login";
+import ShowRecipe from "./views/admin/recipe/ShowRecipe";
 
 const router = new VueRouter({
     mode: 'history',
@@ -47,6 +58,11 @@ const router = new VueRouter({
             path: '/admin',
             name: 'admin',
             component: Admin,
+        },
+        {
+            path: '/admin/recipe/:id',
+            name: 'admin.recipe',
+            component: ShowRecipe
         }
     ],
 });

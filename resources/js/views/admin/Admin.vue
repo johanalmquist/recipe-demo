@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="float-right">
-                    <button class="btn btn-success" @click="showModal()">Nytt Recpet</button>
+                    <button class="btn btn-success" @click.prevent="showModal()">Nytt Recpet</button>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="recipe in recipes.data" :key="recipe.id">
-                            <td>{{recipe.name}}</td>
+                            <td><router-link :to="{name: 'admin.recipe', params: {id : recipe.id}}">{{recipe.name}}</router-link></td>
                             <td>{{recipe.created_at}}</td>
                             <td>{{recipe.updated_at}}</td>
                         </tr>
@@ -40,7 +40,10 @@
                     </div>
                     <div class="modal-body">
                         <form @submit.prevent="createRecipe()">
-                            <input type="text" class="form-control" v-model="form.name" placeholder="Namn på recept">
+                            <div class="form-group">
+                                <input type="text" class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" v-model="form.name" placeholder="Namn på recept">
+                                <has-error :form="form" field="name"></has-error>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -76,8 +79,12 @@
             },
             createRecipe(){
                 this.form.post('/api/recipes')
-                    .then((data) => {console.log(data)})
-                //$('#newRecipeModal').modal('hide')
+                    .then((data) => {
+                        $('#newRecipeModal').modal('hide')
+                        this.$router.push({ name: 'admin.recipe', params: { id: data.data.id } })
+                    })
+
+                this.form.name = ''
             }
         },
         created() {
