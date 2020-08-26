@@ -19,7 +19,7 @@ class CreateRecipesTable extends Migration
             $table->string('slug')->unique();
             $table->text('desctiption')->nullable();
             $table->text('how_to')->nullable();
-            $table->string('image')->default('food.jpg');
+            $table->string('image')->nullable();
             $table->string('duration');
             $table->timestamps();
         });

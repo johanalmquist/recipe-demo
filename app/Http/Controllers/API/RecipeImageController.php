@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Recipe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RecipeImageController extends Controller
 {
@@ -21,12 +22,19 @@ class RecipeImageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param Recipe $recipe
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Recipe $recipe)
     {
-        //
+        $request->validate([
+            'image' => 'mimes:jpeg,jpg,png,gif'
+        ]);
+        $file = Storage::disk('digitalocean')->putFile('uploads', $request->image, 'public');
+        $recipe->image = $file;
+        $recipe->save();
+        return response($file, 200);
     }
 
     /**
@@ -37,7 +45,7 @@ class RecipeImageController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        //
+        return $recipe->image;
     }
 
     /**
@@ -49,7 +57,15 @@ class RecipeImageController extends Controller
      */
     public function update(Request $request, Recipe $recipe)
     {
-        //
+        $request->validate([
+            'image' => 'required|mimes:jpeg,jpg,png,gif'
+        ]);
+        $oldimage = $recipe->image;
+        $newImage =  Storage::disk('digitalocean')->putFile('uploads', $request->image, 'public');
+        $recipe->image = $newImage;
+        $recipe->save();
+        Storage::disk('digitalocean')->delete($oldimage);
+        return $newImage;
     }
 
     /**
@@ -60,6 +76,9 @@ class RecipeImageController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
-        //
+        Storage::disk('digitalocean')->delete($recipe->image);
+        $recipe->image = null;
+        $recipe->save();
+        return response(null, 204);
     }
 }

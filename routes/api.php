@@ -25,4 +25,8 @@ Route::get('ingredients/recipe/{recipe}', 'API\IngredientController@show');
 Route::get('ingredients/recipe/{recipe}/ingredient/{ingredient}', 'API\IngredientController@showIngredient');
 Route::patch('ingredients/recipe/{recipe}/ingredient/{ingredient}', 'API\IngredientController@update');
 Route::delete('ingredients/recipe/{recipe}/ingredient/{ingredient}', 'API\IngredientController@destroy');
+Route::post('recipe/{recipe}/image', 'API\RecipeImageController@store');
+Route::get('recipe/{recipe}/image', 'API\RecipeImageController@show');
+Route::post('recipe/{recipe}/image/update', 'API\RecipeImageController@update');
+Route::delete('recipe/{recipe}/image', 'API\RecipeImageController@destroy');
 
