@@ -2141,6 +2141,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AddIngredientComponent",
@@ -2154,7 +2157,8 @@ __webpack_require__.r(__webpack_exports__);
         amount: '',
         measurment_unit: ''
       }),
-      units: {}
+      units: {},
+      loading: false
     };
   },
   created: function created() {
@@ -2173,15 +2177,23 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.$Progress.start();
+      this.loading = true;
       this.form.post('api/ingredients/recipe/' + this.recipe_id).then(function (data) {
         _this2.form.name = '';
         _this2.form.amount = '';
 
+        _this2.$Progress.finish();
+
+        _this2.loading = false;
+        $("#ingAddedd").fadeTo(2000, 500).slideUp(500, function () {
+          $("#ingAddedd").slideUp(500);
+        });
+
         _this2.$emit('update-ingredient');
-      });
-      this.$Progress.finish();
-      $("#ingAddedd").fadeTo(2000, 500).slideUp(500, function () {
-        $("#ingAddedd").slideUp(500);
+      })["catch"](function (data) {
+        _this2.$Progress.fail();
+
+        _this2.loading = false;
       });
     }
   }
@@ -2204,22 +2216,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "RemoveIngredientComponent",
   props: {
     recipe_id: '',
     ingredient_id: ''
   },
+  data: function data() {
+    return {
+      loading: false
+    };
+  },
   methods: {
     remove: function remove() {
       var _this = this;
 
       this.$Progress.start();
+      this.loading = true;
       axios["delete"]('api/ingredients/recipe/' + this.recipe_id + '/ingredient/' + this.ingredient_id).then(function (reponse) {
         _this.$emit('ingredient-removed', '');
 
         _this.$Progress.finish();
 
+        _this.loading = false;
         var Toast = swal.mixin({
           toast: true,
           position: 'top-end',
@@ -45294,20 +45317,38 @@ var render = function() {
                   [_vm._v("Stäng")]
                 ),
                 _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.save()
-                      }
-                    }
-                  },
-                  [_vm._v("Spara")]
-                )
+                !_vm.loading
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.save()
+                          }
+                        }
+                      },
+                      [_vm._v("Spara")]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.loading
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button", disabled: "" }
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    )
+                  : _vm._e()
               ])
             ])
           ]
@@ -45365,19 +45406,37 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("span", [
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-outline-danger btn-sm",
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            return _vm.remove()
-          }
-        }
-      },
-      [_c("i", { staticClass: "fas fa-minus" })]
-    )
+    !_vm.loading
+      ? _c(
+          "button",
+          {
+            staticClass: "btn btn-outline-danger btn-sm",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.remove()
+              }
+            }
+          },
+          [_c("i", { staticClass: "fas fa-minus" })]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.loading
+      ? _c(
+          "button",
+          {
+            staticClass: "btn btn-outline-danger",
+            attrs: { type: "button", disabled: "" }
+          },
+          [
+            _c("span", {
+              staticClass: "spinner-border spinner-border-sm",
+              attrs: { role: "status", "aria-hidden": "true" }
+            })
+          ]
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = []

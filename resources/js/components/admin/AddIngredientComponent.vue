@@ -38,7 +38,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Stäng</button>
-                        <button type="button" class="btn btn-primary" @click.prevent="save()">Spara</button>
+                        <button v-if="!loading" type="button" class="btn btn-primary" @click.prevent="save()">Spara</button>
+                        <button v-if="loading" class="btn btn-primary" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -61,7 +64,8 @@
                     amount: '',
                     measurment_unit: '',
                 }),
-                units: {}
+                units: {},
+                loading: false
             }
         },
         created() {
@@ -77,16 +81,22 @@
             },
             save() {
                 this.$Progress.start()
+                this.loading = true
                 this.form.post('api/ingredients/recipe/'+ this.recipe_id)
                     .then((data) => {
                         this.form.name = ''
                         this.form.amount = ''
+                        this.$Progress.finish()
+                        this.loading = false
+                        $("#ingAddedd").fadeTo(2000, 500).slideUp(500, function() {
+                            $("#ingAddedd").slideUp(500);
+                        });
                         this.$emit('update-ingredient')
-                    })
-                this.$Progress.finish()
-                $("#ingAddedd").fadeTo(2000, 500).slideUp(500, function() {
-                    $("#ingAddedd").slideUp(500);
-                });
+                    }).catch((data) => {
+                    this.$Progress.fail()
+                    this.loading = false
+                })
+
 
             }
         }
