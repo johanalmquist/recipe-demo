@@ -2758,6 +2758,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2777,7 +2783,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       previewImage: null,
       image: null,
       imageModalButtonText: 'Spara bild',
-      buttonLoading: false
+      buttonLoading: false,
+      deleteImageLoading: false
     };
   },
   created: function created() {
@@ -2835,6 +2842,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       axios.post('/api/recipe/' + this.recipe.id + '/image', formData, {}).then(function (res) {
         //console.log(res)
         _this3.url = 'https://assets.jawp.se/' + res.data;
+        _this3.recipe.image = res.data;
         _this3.buttonLoading = false;
 
         _this3.$Progress.finish();
@@ -2935,6 +2943,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee3);
       }))();
+    },
+    deleteImage: function deleteImage() {
+      var _this6 = this;
+
+      this.$Progress.start();
+      this.deleteImageLoading = true;
+      axios["delete"]('/api/recipe/' + this.recipe.id + '/image').then(function (response) {
+        _this6.url = 'https://assets.jawp.se/food.jpg';
+        _this6.deleteImageLoading = false;
+        _this6.recipe.image = null;
+
+        _this6.$Progress.finish();
+
+        $('#ImageModal').modal('hide');
+        var Toast = swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          onOpen: function onOpen(toast) {
+            toast.addEventListener('mouseenter', swal.stopTimer);
+            toast.addEventListener('mouseleave', swal.resumeTimer);
+          }
+        });
+        Toast.fire({
+          icon: 'success',
+          title: 'Bild borttagen'
+        });
+      });
     }
   }
 });
@@ -46104,54 +46142,99 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("Stäng")]
-                ),
-                _vm._v(" "),
-                !_vm.buttonLoading
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "submit" },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.uploadImage()
+              _c(
+                "div",
+                { staticClass: "modal-footer" },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Stäng")]
+                  ),
+                  _vm._v(" "),
+                  !_vm.buttonLoading
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.uploadImage()
+                            }
                           }
-                        }
-                      },
-                      [_vm._v(_vm._s(_vm.imageModalButtonText))]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.buttonLoading
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button", disabled: "" }
-                      },
-                      [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        }),
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(_vm.imageModalButtonText) +
-                            "\n                    "
-                        )
+                        },
+                        [_vm._v(_vm._s(_vm.imageModalButtonText))]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.buttonLoading
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button", disabled: "" }
+                        },
+                        [
+                          _c("span", {
+                            staticClass: "spinner-border spinner-border-sm",
+                            attrs: { role: "status", "aria-hidden": "true" }
+                          }),
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.imageModalButtonText) +
+                              "\n                    "
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.recipe.image
+                    ? [
+                        !_vm.deleteImageLoading
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteImage()
+                                  }
+                                }
+                              },
+                              [_vm._v("Ta bort bild")]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.deleteImageLoading
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                attrs: { type: "button", disabled: "" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass:
+                                    "spinner-border spinner-border-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          : _vm._e()
                       ]
-                    )
-                  : _vm._e()
-              ])
+                    : _vm._e()
+                ],
+                2
+              )
             ])
           ]
         )

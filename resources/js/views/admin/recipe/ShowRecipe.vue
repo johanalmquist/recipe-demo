@@ -60,6 +60,12 @@
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             {{imageModalButtonText}}
                         </button>
+                        <template v-if="recipe.image">
+                        <button  v-if="!deleteImageLoading" class="btn btn-danger" @click.prevent="deleteImage()">Ta bort bild</button>
+                        <button v-if="deleteImageLoading" class="btn btn-danger" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        </button>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -84,7 +90,8 @@
                 previewImage: null,
                 image: null,
                 imageModalButtonText: 'Spara bild',
-                buttonLoading: false
+                buttonLoading: false,
+                deleteImageLoading: false
             }
         },
         created() {
@@ -119,6 +126,7 @@
                 }).then((res) => {
                     //console.log(res)
                     this.url = 'https://assets.jawp.se/'+res.data
+                    this.recipe.image = res.data
                     this.buttonLoading = false;
                     this.$Progress.finish()
                     $('#ImageModal').modal('hide')
@@ -158,6 +166,35 @@
                 } else {
                     this.url = 'https://assets.jawp.se/food.jpg'
                 }
+            },
+            deleteImage(){
+                this.$Progress.start()
+                this.deleteImageLoading = true
+                axios.delete('/api/recipe/'+this.recipe.id+'/image')
+                    .then(response => {
+                        this.url  = 'https://assets.jawp.se/food.jpg'
+                        this.deleteImageLoading = false
+                        this.recipe.image = null
+                        this.$Progress.finish()
+                        $('#ImageModal').modal('hide')
+                        const Toast = swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            onOpen: (toast) => {
+                                toast.addEventListener('mouseenter', swal.stopTimer)
+                                toast.addEventListener('mouseleave', swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Bild borttagen'
+                        })
+
+                    })
             }
         },
     }
