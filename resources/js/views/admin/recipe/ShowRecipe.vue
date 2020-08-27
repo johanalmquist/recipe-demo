@@ -12,11 +12,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 col-lg-12">
-                <h3>
-                    <small class="text-muted">{{recipe.desctiption}}</small>
-                    <button v-if="!recipe.desctiption" class="btn btn-outline-secondary btn-sm">Lägg till beskrvning</button>
-                    <button v-if="recipe.desctiption" class="btn btn-outline-secondary btn-sm"><i class="fas fa-pencil-alt"></i></button>
-                </h3>
+                <EditDescriptionComponent :id="recipe.id" :desc="recipe.desctiption" />
             </div>
         </div>
         <div class="border-top my-3"></div>
@@ -77,9 +73,10 @@
     import AddIngredientComponent from "../../../components/admin/AddIngredientComponent";
     import RemoveIngredientComponent from "../../../components/admin/RemoveIngredientComponent";
     import {Form} from 'vform'
+    import EditDescriptionComponent from "../../../components/admin/EditDescriptionComponent";
     export default {
         name: "ShowRecipe",
-        components: {RemoveIngredientComponent, AddIngredientComponent},
+        components: {EditDescriptionComponent, RemoveIngredientComponent, AddIngredientComponent},
         data () {
             return {
                 id: this.$route.params.id,

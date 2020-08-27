@@ -20,7 +20,7 @@ class CreateRecipesTable extends Migration
             $table->text('desctiption')->nullable();
             $table->text('how_to')->nullable();
             $table->string('image')->nullable();
-            $table->string('duration');
+            $table->string('duration')->default(0);
             $table->timestamps();
         });
     }

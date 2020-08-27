@@ -71,8 +71,12 @@ class RecipeController extends Controller
     {
 
         $recipe->how_to = $request->how_to;
-        $recipe->desctiption = $request->desctiption;
-        $recipe->duration = $request->duration;
+        if($request->desctiption){
+            $recipe->desctiption = $request->desctiption;
+        }
+        if($request->duration){
+            $recipe->duration = $request->duration;
+        }
         $recipe->save();
 
         return $recipe;
