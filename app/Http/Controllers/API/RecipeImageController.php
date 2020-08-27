@@ -29,8 +29,11 @@ class RecipeImageController extends Controller
     public function store(Request $request, Recipe $recipe)
     {
         $request->validate([
-            'image' => 'mimes:jpeg,jpg,png,gif'
+            'image' => 'required'
         ]);
+        if($recipe->image){
+            $this->removeImage($recipe);
+        }
         $file = Storage::disk('digitalocean')->putFile('uploads', $request->image, 'public');
         $recipe->image = $file;
         $recipe->save();
@@ -80,5 +83,10 @@ class RecipeImageController extends Controller
         $recipe->image = null;
         $recipe->save();
         return response(null, 204);
+    }
+    protected function removeImage(Recipe $recipe){
+        Storage::disk('digitalocean')->delete($recipe->image);
+        $recipe->image = null;
+        $recipe->save();
     }
 }

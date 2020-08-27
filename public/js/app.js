@@ -2669,6 +2669,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_admin_AddIngredientComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/admin/AddIngredientComponent */ "./resources/js/components/admin/AddIngredientComponent.vue");
 /* harmony import */ var _components_admin_RemoveIngredientComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/admin/RemoveIngredientComponent */ "./resources/js/components/admin/RemoveIngredientComponent.vue");
+/* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.common.js");
+/* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vform__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -2727,6 +2729,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2738,13 +2770,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       id: this.$route.params.id,
+      url: '',
       recipe: {},
       ingredients: [],
-      units: {}
+      units: {},
+      previewImage: null,
+      image: null,
+      imageModalButtonText: 'Spara bild',
+      buttonLoading: false
     };
   },
   created: function created() {
     this.getRecipe(this.id);
+    this.setImageUrl(this.id);
     this.getIngredients(this.id);
   },
   methods: {
@@ -2772,9 +2810,55 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    updateImage: function updateImage() {},
-    getIngredients: function getIngredients(recipe) {
+    updateImage: function updateImage() {
+      $('#ImageModal').modal('show');
+    },
+    setPreviewImage: function setPreviewImage(e) {
       var _this2 = this;
+
+      var image = e.target.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(image);
+
+      reader.onload = function (e) {
+        _this2.previewImage = e.target.result;
+        _this2.image = image; //console.log(this.image);
+      };
+    },
+    uploadImage: function uploadImage() {
+      var _this3 = this;
+
+      this.$Progress.start();
+      this.buttonLoading = true;
+      var formData = new FormData();
+      formData.append('image', this.image, this.image.name);
+      axios.post('/api/recipe/' + this.recipe.id + '/image', formData, {}).then(function (res) {
+        //console.log(res)
+        _this3.url = 'https://assets.jawp.se/' + res.data;
+        _this3.buttonLoading = false;
+
+        _this3.$Progress.finish();
+
+        $('#ImageModal').modal('hide');
+        var Toast = swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          onOpen: function onOpen(toast) {
+            toast.addEventListener('mouseenter', swal.stopTimer);
+            toast.addEventListener('mouseleave', swal.resumeTimer);
+          }
+        });
+        Toast.fire({
+          icon: 'success',
+          title: 'Bild sparad och uppladdad'
+        });
+      });
+    },
+    getIngredients: function getIngredients(recipe) {
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var ingredients, _i, _Object$entries, _Object$entries$_i, key, value, measurUnt;
@@ -2783,8 +2867,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!_this2.ingredients.empty) {
-                  _this2.ingredients = [];
+                if (!_this4.ingredients.empty) {
+                  _this4.ingredients = [];
                 }
 
                 _context2.next = 3;
@@ -2808,7 +2892,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 measurUnt = _context2.sent;
                 ingredients.data.data[key].unit = measurUnt.data.data.name;
 
-                _this2.ingredients.push(ingredients.data.data[key]);
+                _this4.ingredients.push(ingredients.data.data[key]);
 
               case 12:
                 _i++;
@@ -2821,6 +2905,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee2);
+      }))();
+    },
+    setImageUrl: function setImageUrl(recipe) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var image;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios.get('api/recipe/' + recipe + '/image');
+
+              case 2:
+                image = _context3.sent;
+
+                if (image.data) {
+                  _this5.url = 'https://assets.jawp.se/' + image.data;
+                } else {
+                  _this5.url = 'https://assets.jawp.se/food.jpg';
+                }
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   }
@@ -7260,7 +7373,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\nimg[data-v-6a7a5886]:hover {\n    opacity: 0.2;\n    cursor: -webkit-grab;\n    cursor: grab;\n}\n", ""]);
+exports.push([module.i, "\nimg[data-v-6a7a5886]:hover {\n    opacity: 0.2;\n    cursor: -webkit-grab;\n    cursor: grab;\n}\n.uploading-image[data-v-6a7a5886]{\n    width: 100px;\n    height: 100px;\n}\n", ""]);
 
 // exports
 
@@ -45847,17 +45960,24 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12 col-lg-12" }, [
-        _c("img", {
-          staticClass: "img-fluid",
-          attrs: { src: "https://via.placeholder.com/1400x600" },
-          on: {
-            click: function($event) {
-              return _vm.updateImage()
-            }
-          }
-        })
-      ])
+      _c(
+        "div",
+        { staticClass: "col-md-12 col-lg-12" },
+        [
+          [
+            _c("img", {
+              staticClass: "img-fluid",
+              attrs: { src: _vm.url, height: "600", width: "1400" },
+              on: {
+                click: function($event) {
+                  return _vm.updateImage()
+                }
+              }
+            })
+          ]
+        ],
+        2
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
@@ -45946,7 +46066,97 @@ var render = function() {
         _vm._m(1),
         _vm._v("\n            " + _vm._s(_vm.recipe.how_to) + "\n        ")
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "ImageModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "newRecipeModal",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("form", { staticClass: "form" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("img", {
+                      staticClass: "uploading-image",
+                      attrs: { src: _vm.previewImage }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: { type: "file", required: "" },
+                      on: { change: _vm.setPreviewImage }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Stäng")]
+                ),
+                _vm._v(" "),
+                !_vm.buttonLoading
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.uploadImage()
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(_vm.imageModalButtonText))]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.buttonLoading
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button", disabled: "" }
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        }),
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.imageModalButtonText) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -45969,6 +46179,29 @@ var staticRenderFns = [
       _c("button", { staticClass: "btn btn-outline-secondary btn-sm" }, [
         _c("i", { staticClass: "fas fa-pencil-alt" })
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title", attrs: { id: "ImageLabel" } }, [
+        _vm._v("Ändra bild")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
     ])
   }
 ]
