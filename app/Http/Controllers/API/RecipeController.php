@@ -70,7 +70,9 @@ class RecipeController extends Controller
     public function update(Request $request, Recipe $recipe)
     {
 
-        $recipe->how_to = $request->how_to;
+        if($request->newHowTo){
+            $recipe->how_to = $request->newHowTo;
+        }
         if($request->desctiption){
             $recipe->desctiption = $request->desctiption;
         }

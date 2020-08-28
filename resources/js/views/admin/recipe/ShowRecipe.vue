@@ -27,8 +27,7 @@
                 </p>
             </div>
             <div class="col-md-6 col-lg-6">
-                <h4 class="text-uppercase">Gör så här: <button class="btn btn-outline-secondary btn-sm"><i class="fas fa-pencil-alt"></i></button></h4>
-                {{recipe.how_to}}
+                <EditHowToComponent :recipe_id="recipe.id" :how_to="recipe.how_to" />
             </div>
         </div>
         <div class="modal fade" id="ImageModal" tabindex="-1" role="dialog" aria-labelledby="newRecipeModal"
@@ -74,9 +73,10 @@
     import RemoveIngredientComponent from "../../../components/admin/RemoveIngredientComponent";
     import {Form} from 'vform'
     import EditDescriptionComponent from "../../../components/admin/EditDescriptionComponent";
+    import EditHowToComponent from "../../../components/admin/EditHowToComponent";
     export default {
         name: "ShowRecipe",
-        components: {EditDescriptionComponent, RemoveIngredientComponent, AddIngredientComponent},
+        components: {EditHowToComponent, EditDescriptionComponent, RemoveIngredientComponent, AddIngredientComponent},
         data () {
             return {
                 id: this.$route.params.id,
