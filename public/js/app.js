@@ -2458,7 +2458,26 @@ __webpack_require__.r(__webpack_exports__);
   name: "RecipeComponent",
   props: ['recipe'],
   data: function data() {
-    return {};
+    return {
+      url: null
+    };
+  },
+  mounted: function mounted() {
+    this.setImagrUrl();
+  },
+  methods: {
+    setImagrUrl: function setImagrUrl() {
+      if (this.recipe.image === null) {
+        this.url = "https://assets.jawp.se/" + "recipe-app" + '/food.jpg';
+      } else {
+        this.url = "https://assets.jawp.se/" + this.recipe.image;
+      }
+    }
+  },
+  computed: {
+    imageUrl: function imageUrl() {
+      return "https://assets.jawp.se/" + this.recipe.image;
+    }
   }
 });
 
@@ -3089,7 +3108,7 @@ __webpack_require__.r(__webpack_exports__);
       recipe: [],
       ingredients: {},
       name: "",
-      loading: true
+      url: null
     };
   },
   methods: {
@@ -3098,6 +3117,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('api/recipes/' + id).then(function (response) {
         _this.recipe = response.data;
+
+        _this.setImageUrl();
       });
     },
     getingredients: function getingredients(recipe) {
@@ -3106,6 +3127,13 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('api/ingredients/recipe/' + recipe).then(function (response) {
         _this2.ingredients = response.data.data;
       });
+    },
+    setImageUrl: function setImageUrl() {
+      if (this.recipe.image === null) {
+        this.url = "https://assets.jawp.se/" + "recipe-app" + '/food.jpg';
+      } else {
+        this.url = "https://assets.jawp.se/" + this.recipe.image;
+      }
     }
   },
   created: function created() {
@@ -45585,10 +45613,7 @@ var render = function() {
   return _c("div", { staticClass: "card col-md-5 col-lg-4 mt-3" }, [
     _c("img", {
       staticClass: "card-img-top",
-      attrs: {
-        src: "https://via.placeholder.com/100x70",
-        alt: "Card image cap"
-      }
+      attrs: { src: _vm.url, width: "70", height: "100", alt: "Card image cap" }
     }),
     _vm._v(" "),
     _c(
@@ -46614,7 +46639,11 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(0),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12 col-lg-12" }, [
+        _c("img", { staticClass: "img-fluid", attrs: { src: _vm.url } })
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12 col-lg-12" }, [
@@ -46657,26 +46686,13 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "col-md-6 col-lg-6" }, [
         _c("h4", { staticClass: "text-uppercase" }, [_vm._v("Gör så här:")]),
-        _vm._v("\n            " + _vm._s(_vm.recipe.how_to) + "\n        ")
+        _vm._v(" "),
+        _c("span", { domProps: { innerHTML: _vm._s(_vm.recipe.how_to) } })
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12 col-lg-12" }, [
-        _c("img", {
-          staticClass: "img-fluid",
-          attrs: { src: "https://via.placeholder.com/1400x600" }
-        })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -10,7 +10,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 col-lg-12">
-                <img src="https://via.placeholder.com/1400x600" class="img-fluid">
+                <img :src="url" class="img-fluid">
             </div>
         </div>
         <div class="row">
@@ -30,7 +30,7 @@
             </div>
             <div class="col-md-6 col-lg-6">
                 <h4 class="text-uppercase">Gör så här:</h4>
-                {{recipe.how_to}}
+                <span v-html="recipe.how_to"></span>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
                 recipe: [],
                 ingredients: {},
                 name: "",
-                loading: true
+                url: null
             }
         },
         methods: {
@@ -55,6 +55,7 @@
                 axios.get('api/recipes/' + id)
                     .then(response => {
                         this.recipe = response.data
+                        this.setImageUrl()
                     });
             },
             getingredients(recipe){
@@ -62,6 +63,13 @@
                     .then(response => {
                         this.ingredients = response.data.data
                     })
+            },
+            setImageUrl(){
+                if(this.recipe.image === null){
+                    this.url = process.env.MIX_ASSET_URL+process.env.MIX_BUCKET_FOLDER+'/food.jpg'
+                } else {
+                    this.url = process.env.MIX_ASSET_URL+this.recipe.image
+                }
             },
         },
         created() {
