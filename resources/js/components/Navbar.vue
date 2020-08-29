@@ -11,9 +11,9 @@
                     <router-link class="nav-link" :to="{ name: 'home' }">Hem</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" :to="{ name: 'login' }">Logga in</router-link>
+                    <router-link class="nav-link" v-if="!auth" :to="{ name: 'login' }">Logga in</router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="auth">
                     <a href="#" class="nav-link" @click.prevent="logout">Logga ut</a>
                 </li>
             </ul>
@@ -24,13 +24,34 @@
 <script>
     export default {
         name: "Navbar",
+        data () {
+            return {
+                auth: false
+            }
+        },
+        beforeMount(){
+            this.isLoggedIn()
+        },
+        created(){
+
+        },
         methods: {
             logout(){
+                this.$Progress.start()
                 axios.post('logout')
                     .then(res => {
                         localStorage.removeItem('isLoggedIn');
+                        this.$Progress.finish()
                         this.$router.push({name: 'login'})
+                        this.auth = false
                     })
+            },
+            isLoggedIn(){
+                if(localStorage.getItem('isLoggedIn')){
+                    return this.auth = true
+                }
+                return this.auth = false
+
             }
         }
     }

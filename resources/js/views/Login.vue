@@ -5,6 +5,9 @@
                 <div class="card-header">Logga in</div>
                 <div class="card-body">
                     <form class="form">
+                        <div  v-if="hasError" class=" alert alert-danger">
+                            {{errorMsg}}
+                        </div>
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">E-post</label>
                             <div class="col-md-6">
@@ -19,8 +22,11 @@
                         </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary" @click.prevent="login">
+                                <button v-if="!loading" type="submit" class="btn btn-primary" @click.prevent="login">
                                     Logga in
+                                </button>
+                                <button v-if="loading" class="btn btn-primary" type="button" disabled>
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 </button>
                             </div>
                         </div>
@@ -37,18 +43,30 @@
         data: function () {
             return {
                 email: "",
-                password: ""
+                password: "",
+                loading: false,
+                hasError: false,
+                errorMsg: null
             }
         },
         methods: {
             login(){
+                this.loading = true
+                this.$Progress.start()
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     axios.post('/login', {
                         email: this.email,
                         password: this.password
                     }).then(response2 => {
                         localStorage.setItem('isLoggedIn', 'true');
+                        this.$Progress.finish()
+                        this.loading = false
                         this.$router.push({name: 'admin'})
+                    }).catch(error => {
+                        this.loading = false
+                        this.$Progress.fail()
+                        this.hasError = true
+                        this.errorMsg = error.response.data.message
                     })
                 });
             }

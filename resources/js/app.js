@@ -29,6 +29,9 @@ import {HasError, AlertError } from 'vform'
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 //Router Stuff
+function isloggedin() {
+    return localStorage.getItem('isLoggedIn')
+}
 import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 import App from './views/App'
@@ -53,20 +56,48 @@ const router = new VueRouter({
             path: '/login',
             name: 'login',
             component: Login,
+            meta: {requiresVisitor: true}
         },
         {
             path: '/admin',
             name: 'admin',
             component: Admin,
+            meta: {requiresAuth: true}
         },
         {
             path: '/admin/recipe/:id',
             name: 'admin.recipe',
-            component: ShowRecipe
+            component: ShowRecipe,
+            meta: {requiresAuth: true}
         }
     ],
 });
 
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        // this route requires auth, check if logged in
+        // if not, redirect to login page.
+        if (!isloggedin()) {
+            next({
+                name: 'login',
+            })
+        } else {
+            next()
+        }
+    } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+        // this route requires auth, check if logged in
+        // if not, redirect to login page.
+        if (isloggedin()) {
+            next({
+                name: 'admin',
+            })
+        } else {
+            next()
+        }
+    }else {
+        next() // make sure to always call next()!
+    }
+})
 
 const app = new Vue({
     el: '#app',

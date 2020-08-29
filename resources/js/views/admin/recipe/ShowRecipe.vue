@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-md-8 col-lg-8 col-sm-8">
-                <h1>{{recipe.name}} <span><button class="btn btn-outline-secondary btn-sm"><i class="fas fa-pencil-alt"></i></button></span></h1>
+                <h1>{{recipe.name}}</h1>
             </div>
         </div>
         <div class="row">

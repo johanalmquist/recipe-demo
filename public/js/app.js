@@ -2394,17 +2394,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Navbar",
+  data: function data() {
+    return {
+      auth: false
+    };
+  },
+  beforeMount: function beforeMount() {
+    this.isLoggedIn();
+  },
+  created: function created() {},
   methods: {
     logout: function logout() {
       var _this = this;
 
+      this.$Progress.start();
       axios.post('logout').then(function (res) {
         localStorage.removeItem('isLoggedIn');
+
+        _this.$Progress.finish();
 
         _this.$router.push({
           name: 'login'
         });
+
+        _this.auth = false;
       });
+    },
+    isLoggedIn: function isLoggedIn() {
+      if (localStorage.getItem('isLoggedIn')) {
+        return this.auth = true;
+      }
+
+      return this.auth = false;
     }
   }
 });
@@ -2955,18 +2976,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Login",
   data: function data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      loading: false,
+      hasError: false,
+      errorMsg: null
     };
   },
   methods: {
     login: function login() {
       var _this = this;
 
+      this.loading = true;
+      this.$Progress.start();
       axios.get('/sanctum/csrf-cookie').then(function (response) {
         axios.post('/login', {
           email: _this.email,
@@ -2974,9 +3006,20 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (response2) {
           localStorage.setItem('isLoggedIn', 'true');
 
+          _this.$Progress.finish();
+
+          _this.loading = false;
+
           _this.$router.push({
             name: 'admin'
           });
+        })["catch"](function (error) {
+          _this.loading = false;
+
+          _this.$Progress.fail();
+
+          _this.hasError = true;
+          _this.errorMsg = error.response.data.message;
         });
       });
     }
@@ -45452,31 +45495,38 @@ var render = function() {
               "li",
               { staticClass: "nav-item" },
               [
-                _c(
-                  "router-link",
-                  { staticClass: "nav-link", attrs: { to: { name: "login" } } },
-                  [_vm._v("Logga in")]
-                )
+                !_vm.auth
+                  ? _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { to: { name: "login" } }
+                      },
+                      [_vm._v("Logga in")]
+                    )
+                  : _vm._e()
               ],
               1
             ),
             _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "nav-link",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.logout($event)
-                    }
-                  }
-                },
-                [_vm._v("Logga ut")]
-              )
-            ])
+            _vm.auth
+              ? _c("li", { staticClass: "nav-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "nav-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.logout($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Logga ut")]
+                  )
+                ])
+              : _vm._e()
           ])
         ]
       )
@@ -46386,6 +46436,16 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("form", { staticClass: "form" }, [
+            _vm.hasError
+              ? _c("div", { staticClass: " alert alert-danger" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(_vm.errorMsg) +
+                      "\n                    "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _c("div", { staticClass: "form-group row" }, [
               _c(
                 "label",
@@ -46464,24 +46524,42 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "form-group row mb-0" }, [
               _c("div", { staticClass: "col-md-8 offset-md-4" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { type: "submit" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.login($event)
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                                Logga in\n                            "
+                !_vm.loading
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.login($event)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Logga in\n                            "
+                        )
+                      ]
                     )
-                  ]
-                )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.loading
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button", disabled: "" }
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    )
+                  : _vm._e()
               ])
             ])
           ])
@@ -46909,7 +46987,7 @@ var render = function() {
   return _c("div", [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-8 col-lg-8 col-sm-8" }, [
-        _c("h1", [_vm._v(_vm._s(_vm.recipe.name) + " "), _vm._m(0)])
+        _c("h1", [_vm._v(_vm._s(_vm.recipe.name))])
       ])
     ]),
     _vm._v(" "),
@@ -47033,7 +47111,7 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(1),
+              _vm._m(0),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("form", { staticClass: "form" }, [
@@ -47152,16 +47230,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", [
-      _c("button", { staticClass: "btn btn-outline-secondary btn-sm" }, [
-        _c("i", { staticClass: "fas fa-pencil-alt" })
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -62481,6 +62549,10 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.component('pagination', __webpack_req
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.component(vform__WEBPACK_IMPORTED_MODULE_4__["HasError"].name, vform__WEBPACK_IMPORTED_MODULE_4__["HasError"]);
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.component(vform__WEBPACK_IMPORTED_MODULE_4__["AlertError"].name, vform__WEBPACK_IMPORTED_MODULE_4__["AlertError"]); //Router Stuff
 
+function isloggedin() {
+  return localStorage.getItem('isLoggedIn');
+}
+
 
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]);
 
@@ -62500,16 +62572,54 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]({
   }, {
     path: '/login',
     name: 'login',
-    component: _views_Login__WEBPACK_IMPORTED_MODULE_9__["default"]
+    component: _views_Login__WEBPACK_IMPORTED_MODULE_9__["default"],
+    meta: {
+      requiresVisitor: true
+    }
   }, {
     path: '/admin',
     name: 'admin',
-    component: _views_admin_Admin__WEBPACK_IMPORTED_MODULE_0__["default"]
+    component: _views_admin_Admin__WEBPACK_IMPORTED_MODULE_0__["default"],
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/admin/recipe/:id',
     name: 'admin.recipe',
-    component: _views_admin_recipe_ShowRecipe__WEBPACK_IMPORTED_MODULE_10__["default"]
+    component: _views_admin_recipe_ShowRecipe__WEBPACK_IMPORTED_MODULE_10__["default"],
+    meta: {
+      requiresAuth: true
+    }
   }]
+});
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some(function (record) {
+    return record.meta.requiresAuth;
+  })) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!isloggedin()) {
+      next({
+        name: 'login'
+      });
+    } else {
+      next();
+    }
+  } else if (to.matched.some(function (record) {
+    return record.meta.requiresVisitor;
+  })) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (isloggedin()) {
+      next({
+        name: 'admin'
+      });
+    } else {
+      next();
+    }
+  } else {
+    next(); // make sure to always call next()!
+  }
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_3___default.a({
   el: '#app',
