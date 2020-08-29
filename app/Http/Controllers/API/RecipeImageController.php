@@ -34,7 +34,7 @@ class RecipeImageController extends Controller
         if($recipe->image){
             $this->removeImage($recipe);
         }
-        $file = Storage::disk('digitalocean')->putFile('uploads', $request->image, 'public');
+        $file = Storage::disk('digitalocean')->putFile(env('APP_BUCKET_FOLDER').'/uploads', $request->image, 'public');
         $recipe->image = $file;
         $recipe->save();
         return response($file, 200);

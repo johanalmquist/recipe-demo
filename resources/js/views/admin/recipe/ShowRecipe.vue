@@ -159,9 +159,9 @@
             async setImageUrl(recipe){
                 const image = await axios.get('api/recipe/'+recipe+'/image')
                 if(image.data){
-                    this.url = 'https://assets.jawp.se/'+image.data
+                    this.url = this.assetUrl+image.data
                 } else {
-                    this.url = 'https://assets.jawp.se/food.jpg'
+                    this.url = process.env.MIX_ASSET_URL+process.env.MIX_BUCKET_FOLDER+'/food.jpg'
                 }
             },
             deleteImage(){
@@ -194,6 +194,11 @@
                     })
             }
         },
+        computed: {
+            assetUrl: function () {
+                return process.env.MIX_ASSET_URL
+            }
+        }
     }
 </script>
 

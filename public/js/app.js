@@ -2399,10 +2399,6 @@ __webpack_require__.r(__webpack_exports__);
       auth: false
     };
   },
-  beforeMount: function beforeMount() {
-    this.isLoggedIn();
-  },
-  created: function created() {},
   methods: {
     logout: function logout() {
       var _this = this;
@@ -2426,6 +2422,11 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return this.auth = false;
+    }
+  },
+  computed: {
+    appName: function appName() {
+      return "Minna Favorit recpet";
     }
   }
 });
@@ -3594,9 +3595,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 image = _context3.sent;
 
                 if (image.data) {
-                  _this5.url = 'https://assets.jawp.se/' + image.data;
+                  _this5.url = _this5.assetUrl + image.data;
                 } else {
-                  _this5.url = 'https://assets.jawp.se/food.jpg';
+                  _this5.url = "https://assets.jawp.se/" + "recipe-app" + '/food.jpg';
                 }
 
               case 4:
@@ -3636,6 +3637,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           title: 'Bild borttagen'
         });
       });
+    }
+  },
+  computed: {
+    assetUrl: function assetUrl() {
+      return "https://assets.jawp.se/";
     }
   }
 });
@@ -45465,7 +45471,7 @@ var render = function() {
     },
     [
       _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
-        _vm._v("Recept")
+        _vm._v(_vm._s(_vm.appName))
       ]),
       _vm._v(" "),
       _vm._m(0),

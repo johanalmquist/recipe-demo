@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #3CB371;">
-        <a class="navbar-brand" href="#">Recept</a>
+        <a class="navbar-brand" href="#">{{appName}}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,12 +29,6 @@
                 auth: false
             }
         },
-        beforeMount(){
-            this.isLoggedIn()
-        },
-        created(){
-
-        },
         methods: {
             logout(){
                 this.$Progress.start()
@@ -52,6 +46,11 @@
                 }
                 return this.auth = false
 
+            }
+        },
+        computed: {
+            appName: function () {
+                return process.env.MIX_APP_NAME
             }
         }
     }
