@@ -2654,6 +2654,79 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "DeleteRecipeComponent",
+  props: ['recipe_id'],
+  methods: {
+    confirmDelete: function confirmDelete() {
+      var _this = this;
+
+      swal.fire({
+        title: 'Är du säker på att du vill tabort recpet?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ja, tabort!',
+        cancelButtonText: 'Avbryt'
+      }).then(function (result) {
+        if (result.value) {
+          swal.fire('Tar bort recpet', 'info');
+
+          _this["delete"](); // For more information about handling dismissals please visit
+          // https://sweetalert2.github.io/#handling-dismissals
+
+        } else if (result.dismiss === swal.DismissReason.cancel) {
+          return null;
+        }
+      });
+    },
+    "delete": function _delete() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      axios["delete"]('api/recipes/' + this.recipe_id).then(function (response) {
+        _this2.$Progress.finish();
+
+        var Toast = swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          onOpen: function onOpen(toast) {
+            toast.addEventListener('mouseenter', swal.stopTimer);
+            toast.addEventListener('mouseleave', swal.resumeTimer);
+          }
+        });
+        Toast.fire({
+          icon: 'success',
+          title: 'Recpetet är borttaget'
+        });
+
+        _this2.$router.push({
+          name: 'admin'
+        });
+      })["catch"](function (error) {});
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/EditDescriptionComponent.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/admin/EditDescriptionComponent.vue?vue&type=script&lang=js& ***!
@@ -3485,6 +3558,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_admin_EditDescriptionComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../components/admin/EditDescriptionComponent */ "./resources/js/components/admin/EditDescriptionComponent.vue");
 /* harmony import */ var _components_admin_EditHowToComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../components/admin/EditHowToComponent */ "./resources/js/components/admin/EditHowToComponent.vue");
 /* harmony import */ var _components_admin_EditTitleComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/admin/EditTitleComponent */ "./resources/js/components/admin/EditTitleComponent.vue");
+/* harmony import */ var _components_admin_DeleteRecipeComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../components/admin/DeleteRecipeComponent */ "./resources/js/components/admin/DeleteRecipeComponent.vue");
 
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -3582,9 +3656,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ShowRecipe",
   components: {
+    DeleteRecipeComponent: _components_admin_DeleteRecipeComponent__WEBPACK_IMPORTED_MODULE_7__["default"],
     EditTitleComponent: _components_admin_EditTitleComponent__WEBPACK_IMPORTED_MODULE_6__["default"],
     EditHowToComponent: _components_admin_EditHowToComponent__WEBPACK_IMPORTED_MODULE_5__["default"],
     EditDescriptionComponent: _components_admin_EditDescriptionComponent__WEBPACK_IMPORTED_MODULE_4__["default"],
@@ -46194,6 +46270,44 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=template&id=65235609&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=template&id=65235609&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-outline-danger",
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            return _vm.confirmDelete()
+          }
+        }
+      },
+      [_c("i", { staticClass: "fas fa-trash-alt" })]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/EditDescriptionComponent.vue?vue&type=template&id=157933f6&scoped=true&":
 /*!*********************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/admin/EditDescriptionComponent.vue?vue&type=template&id=157933f6&scoped=true& ***!
@@ -47389,7 +47503,12 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm._m(0)
+      _c(
+        "div",
+        { staticClass: "col-md-4 col-lg-4 col-sm-4 right" },
+        [_c("DeleteRecipeComponent", { attrs: { recipe_id: _vm.recipe.id } })],
+        1
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
@@ -47512,7 +47631,7 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(1),
+              _vm._m(0),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("form", { staticClass: "form" }, [
@@ -47631,16 +47750,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4 col-lg-4 col-sm-4 right" }, [
-      _c("button", { staticClass: "btn btn-outline-danger" }, [
-        _c("i", { staticClass: "fas fa-trash-alt" })
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -63429,6 +63538,76 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddIngredientComponent_vue_vue_type_template_id_963df214_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddIngredientComponent_vue_vue_type_template_id_963df214_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/DeleteRecipeComponent.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/admin/DeleteRecipeComponent.vue ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DeleteRecipeComponent_vue_vue_type_template_id_65235609_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteRecipeComponent.vue?vue&type=template&id=65235609&scoped=true& */ "./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=template&id=65235609&scoped=true&");
+/* harmony import */ var _DeleteRecipeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeleteRecipeComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=script&lang=js&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _DeleteRecipeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _DeleteRecipeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DeleteRecipeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DeleteRecipeComponent_vue_vue_type_template_id_65235609_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DeleteRecipeComponent_vue_vue_type_template_id_65235609_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "65235609",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/admin/DeleteRecipeComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteRecipeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteRecipeComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteRecipeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=template&id=65235609&scoped=true&":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=template&id=65235609&scoped=true& ***!
+  \************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteRecipeComponent_vue_vue_type_template_id_65235609_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteRecipeComponent.vue?vue&type=template&id=65235609&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/DeleteRecipeComponent.vue?vue&type=template&id=65235609&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteRecipeComponent_vue_vue_type_template_id_65235609_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteRecipeComponent_vue_vue_type_template_id_65235609_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

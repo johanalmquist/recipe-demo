@@ -5,7 +5,7 @@
                 <EditTitleComponent :title="recipe.name" :duration="recipe.duration" :recipe_id="recipe.id" />
             </div>
             <div class="col-md-4 col-lg-4 col-sm-4 right">
-                <button class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
+                <DeleteRecipeComponent :recipe_id="recipe.id" />
             </div>
         </div>
         <div class="row">
@@ -78,9 +78,11 @@
     import EditDescriptionComponent from "../../../components/admin/EditDescriptionComponent";
     import EditHowToComponent from "../../../components/admin/EditHowToComponent";
     import EditTitleComponent from "../../../components/admin/EditTitleComponent";
+    import DeleteRecipeComponent from "../../../components/admin/DeleteRecipeComponent";
     export default {
         name: "ShowRecipe",
         components: {
+            DeleteRecipeComponent,
             EditTitleComponent,
             EditHowToComponent, EditDescriptionComponent, RemoveIngredientComponent, AddIngredientComponent},
         data () {
