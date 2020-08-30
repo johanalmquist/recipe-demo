@@ -69,7 +69,10 @@ class RecipeController extends Controller
      */
     public function update(Request $request, Recipe $recipe)
     {
-
+        if($request->name){
+            $recipe->name = $request->name;
+            $recipe->slug = Str::slug($request->name);
+        }
         if($request->newHowTo){
             $recipe->how_to = $request->newHowTo;
         }

@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-md-8 col-lg-8 col-sm-8">
-                <h1>{{recipe.name}}</h1>
+                <h1>{{recipe.name}} <span class="badge badge-secondary">{{recipe.duration}} minuter</span></h1>
             </div>
             <div class="col-md-4 col-lg-4 col-sm-4">
                 <router-link to="/">Tillbaka till lista</router-link>
@@ -47,7 +47,8 @@
                 recipe: [],
                 ingredients: {},
                 name: "",
-                url: null
+                url: null,
+                time: 0
             }
         },
         methods: {
@@ -56,6 +57,7 @@
                     .then(response => {
                         this.recipe = response.data
                         this.setImageUrl()
+                        this.setdurationTime()
                     });
             },
             getingredients(recipe){
@@ -71,16 +73,14 @@
                     this.url = process.env.MIX_ASSET_URL+this.recipe.image
                 }
             },
+            setdurationTime(){
+                this.time = this.recipe.duration
+            },
         },
         created() {
             this.getRecipe(this.id)
             this.getingredients(this.id)
         },
-        computed: {
-            measurUnit(){
-                return "Hello!"
-            }
-        }
     }
 </script>
 
