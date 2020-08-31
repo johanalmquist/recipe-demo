@@ -39,7 +39,14 @@ class RecipeController extends Controller
            'name' => 'required|unique:recipes',
            'duration' => 'required'
         ]);
+
         $recipe = new Recipe();
+        if($request->how_to){
+            $recipe->how_to = $request->how_to;
+        }
+        if($request->desctiption){
+            $recipe->desctiption = $request->desctiption;
+        }
         $recipe->name = $request->name;
         $recipe->slug = Str::slug($request->name);
         $recipe->duration = $request->duration;
@@ -72,6 +79,9 @@ class RecipeController extends Controller
         if($request->name){
             $recipe->name = $request->name;
             $recipe->slug = Str::slug($request->name);
+        }
+        if($request->how_to){
+            $recipe->how_to = $request->how_to;
         }
         if($request->newHowTo){
             $recipe->how_to = $request->newHowTo;

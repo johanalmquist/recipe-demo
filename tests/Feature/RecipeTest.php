@@ -34,7 +34,7 @@ class RecipeTest extends TestCase
                 'how_to',
                 'duration'
             ])
-            ->assertStatus(200);
+            ->assertStatus(201);
 
         $this->assertDatabaseHas('recipes', $data);
     }
@@ -51,18 +51,6 @@ class RecipeTest extends TestCase
             ->assertSessionHasErrors(['name']);
     }
 
-    public function testRecipeMustHaveHowTo()
-    {
-        Sanctum::actingAs(factory(User::class)->create());
-        //$this->withoutExceptionHandling();
-        $data = [
-            'name' => 'jfdkfhkjdhfkjdhjkdh',
-            'duration' => '50'
-        ];
-        $this->post('api/recipes', $data)
-            ->assertStatus(302)
-            ->assertSessionHasErrors(['how_to']);
-    }
     public function testRecipeMustHaveDuration(){
         Sanctum::actingAs(factory(User::class)->create());
         $data = [
