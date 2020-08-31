@@ -58,7 +58,7 @@
                         email: this.email,
                         password: this.password
                     }).then(response2 => {
-                        localStorage.setItem('isLoggedIn', 'true');
+                        sessionStorage.setItem("auth", true);
                         this.$Progress.finish()
                         this.loading = false
                         this.$router.push({name: 'admin'})

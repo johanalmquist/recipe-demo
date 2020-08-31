@@ -30,7 +30,7 @@ Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 //Router Stuff
 function isloggedin() {
-    return localStorage.getItem('isLoggedIn')
+    return sessionStorage.getItem("auth")
 }
 import VueRouter from 'vue-router'
 Vue.use(VueRouter);
@@ -98,7 +98,6 @@ router.beforeEach((to, from, next) => {
         next() // make sure to always call next()!
     }
 })
-
 const app = new Vue({
     el: '#app',
     components: { App },

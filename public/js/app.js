@@ -2395,9 +2395,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Navbar",
   data: function data() {
-    return {
-      auth: false
-    };
+    return {};
   },
   methods: {
     logout: function logout() {
@@ -2405,7 +2403,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$Progress.start();
       axios.post('logout').then(function (res) {
-        localStorage.removeItem('isLoggedIn');
+        sessionStorage.setItem("auth", false);
 
         _this.$Progress.finish();
 
@@ -2413,7 +2411,7 @@ __webpack_require__.r(__webpack_exports__);
           name: 'login'
         });
 
-        _this.auth = false;
+        _this.$isAuth = false;
       });
     },
     isLoggedIn: function isLoggedIn() {
@@ -2424,6 +2422,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.auth = false;
     }
   },
+  created: function created() {},
   computed: {
     appName: function appName() {
       return "Minna Favorit recpet";
@@ -3216,7 +3215,7 @@ __webpack_require__.r(__webpack_exports__);
           email: _this.email,
           password: _this.password
         }).then(function (response2) {
-          localStorage.setItem('isLoggedIn', 'true');
+          sessionStorage.setItem("auth", true);
 
           _this.$Progress.finish();
 
@@ -45754,9 +45753,9 @@ var render = function() {
             _vm._v(" "),
             _c(
               "li",
-              { staticClass: "nav-item" },
+              { staticClass: "nav-item float-right" },
               [
-                !_vm.auth
+                !this.$isAuth
                   ? _c(
                       "router-link",
                       {
@@ -45770,7 +45769,7 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _vm.auth
+            this.$isAuth
               ? _c("li", { staticClass: "nav-item" }, [
                   _c(
                     "a",
@@ -63113,7 +63112,7 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.component(vform__WEBPACK_IMPORTED_MOD
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.component(vform__WEBPACK_IMPORTED_MODULE_4__["AlertError"].name, vform__WEBPACK_IMPORTED_MODULE_4__["AlertError"]); //Router Stuff
 
 function isloggedin() {
-  return localStorage.getItem('isLoggedIn');
+  return sessionStorage.getItem("auth");
 }
 
 
@@ -64280,15 +64279,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!********************************************!*\
   !*** ./resources/js/views/admin/Admin.vue ***!
   \********************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Admin_vue_vue_type_template_id_218f7cc0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Admin.vue?vue&type=template&id=218f7cc0&scoped=true& */ "./resources/js/views/admin/Admin.vue?vue&type=template&id=218f7cc0&scoped=true&");
 /* harmony import */ var _Admin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Admin.vue?vue&type=script&lang=js& */ "./resources/js/views/admin/Admin.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Admin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Admin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -64318,7 +64316,7 @@ component.options.__file = "resources/js/views/admin/Admin.vue"
 /*!*********************************************************************!*\
   !*** ./resources/js/views/admin/Admin.vue?vue&type=script&lang=js& ***!
   \*********************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
