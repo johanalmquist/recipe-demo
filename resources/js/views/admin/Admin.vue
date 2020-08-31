@@ -48,7 +48,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click.prevent="createRecipe()">Save changes</button>
+                        <button v-if="!loading" type="button" class="btn btn-primary" @click.prevent="createRecipe()">Save changes</button>
+                        <button v-if="loading" class="btn btn-primary" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -63,6 +66,7 @@
         data () {
             return {
                 recipes: {},
+                loading: false,
                 form: new Form({
                     name: '',
                     duration: '0'
@@ -78,9 +82,29 @@
                 $('#newRecipeModal').modal('show')
             },
             createRecipe(){
+                this.$Progress.start()
+                this.loading = true;
                 this.form.post('/api/recipes')
                     .then((data) => {
+                        this.loading = false;
                         $('#newRecipeModal').modal('hide')
+                        this.$Progress.finish()
+                        const Toast = swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            onOpen: (toast) => {
+                                toast.addEventListener('mouseenter', swal.stopTimer)
+                                toast.addEventListener('mouseleave', swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Nytt recepet är skapat'
+                        })
                         this.$router.push({ name: 'admin.recipe', params: { id: data.data.id } })
                     })
 
