@@ -219,4 +219,8 @@
         width: 100px;
         height: 100px;
     }
+    .img-fluid{
+        height: 400px;
+        width: 1400px;
+    }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="card col-md-5 col-lg-4 mt-3">
-        <img class="card-img-top" :src="url" width="70" height="100" alt="Card image cap">
+        <img class="card-img-top" :src="url" width="300" height="200" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">{{recipe.name}}</h5>
             <span class="badge badge-pill badge-dark">{{recipe.duration}} minuter</span>

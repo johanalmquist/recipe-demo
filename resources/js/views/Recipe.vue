@@ -85,5 +85,8 @@
 </script>
 
 <style scoped>
-
+.img-fluid{
+    height: 400px;
+    width: 1400px;
+}
 </style>
