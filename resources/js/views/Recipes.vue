@@ -4,6 +4,9 @@
             <spinner-component></spinner-component>
         </div>
         <div class="row" v-if="!loading">
+            <template v-if="!recipes.data.data">
+                <NoRecipesComponent></NoRecipesComponent>
+            </template>
                 <recipe-component :recipe="recipe" v-for="recipe in recipes.data" :key="recipe.id"></recipe-component>
         </div>
         <pagination :data="recipes" @pagination-change-page="getRecipes"></pagination>
@@ -13,9 +16,10 @@
 <script>
     import SpinnerComponent from "../components/SpinnerComponent";
     import RecipeComponent from "../components/RecipeComponent";
+    import NoRecipesComponent from "../components/NoRecipesComponent";
     export default {
         name: "Recipes",
-        components: {SpinnerComponent, RecipeComponent},
+        components: {NoRecipesComponent, SpinnerComponent, RecipeComponent},
         data: function () {
             return {
                 recipes: {},

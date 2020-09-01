@@ -24,7 +24,6 @@
         created() {
             axios.get('api/version')
                 .then(response => {
-                    console.log(response.data)
                     this.version = response.data
                 })
         }
