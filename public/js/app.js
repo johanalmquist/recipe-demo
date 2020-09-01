@@ -2496,15 +2496,15 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     setImagrUrl: function setImagrUrl() {
       if (this.recipe.image === null) {
-        this.url = "https://assets.jawp.se/" + "recipe-app" + '/food.jpg';
+        this.url = "https://assets.johanalmquist.xyz/" + "recipe-app" + '/food.jpg';
       } else {
-        this.url = "https://assets.jawp.se/" + this.recipe.image;
+        this.url = "https://assets.johanalmquist.xyz/" + this.recipe.image;
       }
     }
   },
   computed: {
     imageUrl: function imageUrl() {
-      return "https://assets.jawp.se/" + this.recipe.image;
+      return "https://assets.johanalmquist.xyz/" + this.recipe.image;
     }
   }
 });
@@ -3357,9 +3357,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     setImageUrl: function setImageUrl() {
       if (this.recipe.image === null) {
-        this.url = "https://assets.jawp.se/" + "recipe-app" + '/food.jpg';
+        this.url = "https://assets.johanalmquist.xyz/" + "recipe-app" + '/food.jpg';
       } else {
-        this.url = "https://assets.jawp.se/" + this.recipe.image;
+        this.url = "https://assets.johanalmquist.xyz/" + this.recipe.image;
       }
     },
     setdurationTime: function setdurationTime() {
@@ -3727,7 +3727,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       id: this.$route.params.id,
-      url: '',
+      url: "https://assets.johanalmquist.xyz/" + "recipe-app" + '/food.jpg',
       recipe: {},
       ingredients: [],
       units: {},
@@ -3792,7 +3792,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       formData.append('image', this.image, this.image.name);
       axios.post('/api/recipe/' + this.recipe.id + '/image', formData, {}).then(function (res) {
         //console.log(res)
-        _this3.url = 'https://assets.jawp.se/' + res.data;
+        _this3.url = "https://assets.johanalmquist.xyz/" + '/' + res.data;
         _this3.recipe.image = res.data;
         _this3.buttonLoading = false;
 
@@ -3883,8 +3883,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (image.data) {
                   _this5.url = _this5.assetUrl + image.data;
-                } else {
-                  _this5.url = "https://assets.jawp.se/" + "recipe-app" + '/food.jpg';
                 }
 
               case 4:
@@ -3901,7 +3899,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$Progress.start();
       this.deleteImageLoading = true;
       axios["delete"]('/api/recipe/' + this.recipe.id + '/image').then(function (response) {
-        _this6.url = "https://assets.jawp.se/" + "recipe-app" + '/food.jpg';
+        _this6.url = "https://assets.johanalmquist.xyz/" + "recipe-app" + '/food.jpg';
         _this6.deleteImageLoading = false;
         _this6.recipe.image = null;
 
@@ -3928,7 +3926,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     assetUrl: function assetUrl() {
-      return "https://assets.jawp.se/";
+      return "https://assets.johanalmquist.xyz/";
     }
   }
 });

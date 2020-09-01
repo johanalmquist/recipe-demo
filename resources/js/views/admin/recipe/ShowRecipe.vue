@@ -88,7 +88,7 @@
         data () {
             return {
                 id: this.$route.params.id,
-                url: '',
+                url: process.env.MIX_ASSET_URL+process.env.MIX_BUCKET_FOLDER+'/food.jpg',
                 recipe: {},
                 ingredients: [],
                 units: {},
@@ -130,7 +130,7 @@
                 axios.post('/api/recipe/'+this.recipe.id+'/image', formData, {
                 }).then((res) => {
                     //console.log(res)
-                    this.url = 'https://assets.jawp.se/'+res.data
+                    this.url = process.env.MIX_ASSET_URL+'/'+res.data
                     this.recipe.image = res.data
                     this.buttonLoading = false;
                     this.$Progress.finish()
@@ -168,8 +168,6 @@
                 const image = await axios.get('api/recipe/'+recipe+'/image')
                 if(image.data){
                     this.url = this.assetUrl+image.data
-                } else {
-                    this.url = process.env.MIX_ASSET_URL+process.env.MIX_BUCKET_FOLDER+'/food.jpg'
                 }
             },
             deleteImage(){
