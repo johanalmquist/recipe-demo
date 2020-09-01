@@ -3901,7 +3901,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$Progress.start();
       this.deleteImageLoading = true;
       axios["delete"]('/api/recipe/' + this.recipe.id + '/image').then(function (response) {
-        _this6.url = 'https://assets.jawp.se/food.jpg';
+        _this6.url = "https://assets.jawp.se/" + "recipe-app" + '/food.jpg';
         _this6.deleteImageLoading = false;
         _this6.recipe.image = null;
 

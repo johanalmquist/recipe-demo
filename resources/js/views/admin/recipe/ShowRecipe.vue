@@ -177,7 +177,7 @@
                 this.deleteImageLoading = true
                 axios.delete('/api/recipe/'+this.recipe.id+'/image')
                     .then(response => {
-                        this.url  = 'https://assets.jawp.se/food.jpg'
+                        this.url = process.env.MIX_ASSET_URL+process.env.MIX_BUCKET_FOLDER+'/food.jpg'
                         this.deleteImageLoading = false
                         this.recipe.image = null
                         this.$Progress.finish()
