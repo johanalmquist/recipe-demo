@@ -2348,7 +2348,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Footer"
+  name: "Footer",
+  data: function data() {
+    return {
+      version: null
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('api/version').then(function (response) {
+      console.log(response.data);
+      _this.version = response.data;
+    });
+  }
 });
 
 /***/ }),
@@ -8354,7 +8367,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\nfooter[data-v-61a7c374] {\n    position: absolute;\n    bottom: 0;\n    width: 100%;\n    height: 30px; /* Set the fixed height of the footer here */\n    line-height: 30px; /* Vertically center the text there */\n    background-color: #2a9055;\n    color: #ffffff;\n}\na[data-v-61a7c374]{\n    color: #ffffff;\n}\na[data-v-61a7c374]:hover{\n    text-decoration: underline;\n}\n", ""]);
+exports.push([module.i, "\nfooter[data-v-61a7c374] {\n    position: relative;\n    bottom: 0;\n    width: 100%;\n    height: 30px; /* Set the fixed height of the footer here */\n    line-height: 30px; /* Vertically center the text there */\n    background-color: #2a9055;\n    color: #ffffff;\n}\na[data-v-61a7c374]{\n    color: #ffffff;\n}\na[data-v-61a7c374]:hover{\n    text-decoration: underline;\n}\n", ""]);
 
 // exports
 
@@ -45811,29 +45824,31 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("footer", { staticClass: "mt-5" }, [
+    _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-4" }, [_vm._v("© Johan Almquist")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4" }, [
+          _vm._v(
+            "\n                API version: " +
+              _vm._s(_vm.version) +
+              "\n                Client version: 1.0-beta\n            "
+          )
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("footer", { staticClass: "mt-5" }, [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-4" }, [_vm._v("© Johan Almquist")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4" }, [
-            _vm._v(
-              "\n                API version: 1.0\n                Client version: 1.0\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4" }, [
-            _c("a", { attrs: { href: "/admin" } }, [_vm._v("Admin")])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("a", { attrs: { href: "/admin" } }, [_vm._v("Admin")])
     ])
   }
 ]

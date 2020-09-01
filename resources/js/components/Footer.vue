@@ -4,8 +4,8 @@
             <div class="row">
                 <div class="col-md-4">&copy; Johan Almquist</div>
                 <div class="col-md-4">
-                    API version: 1.0
-                    Client version: 1.0
+                    API version: {{version}}
+                    Client version: 1.0-beta
                 </div>
                 <div class="col-md-4"><a href="/admin">Admin</a></div>
             </div>
@@ -15,13 +15,25 @@
 
 <script>
     export default {
-        name: "Footer"
+        name: "Footer",
+        data() {
+            return {
+                version: null
+            }
+        },
+        created() {
+            axios.get('api/version')
+                .then(response => {
+                    console.log(response.data)
+                    this.version = response.data
+                })
+        }
     }
 </script>
 
 <style scoped>
     footer {
-        position: absolute;
+        position: relative;
         bottom: 0;
         width: 100%;
         height: 30px; /* Set the fixed height of the footer here */

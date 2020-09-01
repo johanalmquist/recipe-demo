@@ -18,6 +18,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/version', function (){
+   return 1.0;
+});
+
 Route::apiResource('recipes', 'API\RecipeController');
 Route::apiResource('measurment-units', 'API\MeasurmentUnitController');
 Route::post('ingredients/recipe/{recipe}', 'API\IngredientController@store');
