@@ -101,13 +101,36 @@
         },
         created() {
             this.getRecipe(this.id)
-            this.setImageUrl(this.id)
-            this.getIngredients(this.id)
         },
         methods: {
             async getRecipe(id) {
-                const recipe = await axios.get('api/recipes/' + id)
-                this.recipe = recipe.data
+                axios.get('api/recipes/'+id)
+                    .then(response => {
+                        this.recipe = response.data
+                        this.setImageUrl(this.id)
+                        this.getIngredients(this.id)
+                    })
+                    .catch(error => {
+                        if (error.response.status = 404) {
+                            const Toast = swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                onOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', swal.stopTimer)
+                                    toast.addEventListener('mouseleave', swal.resumeTimer)
+                                }
+                            })
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: error.response.data.message
+                            })
+                            this.$router.push({name: '404'})
+                        }
+                    })
             },
             updateImage(){
                 $('#ImageModal').modal('show')

@@ -3818,27 +3818,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   created: function created() {
     this.getRecipe(this.id);
-    this.setImageUrl(this.id);
-    this.getIngredients(this.id);
   },
   methods: {
     getRecipe: function getRecipe(id) {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var recipe;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios.get('api/recipes/' + id);
+                axios.get('api/recipes/' + id).then(function (response) {
+                  _this.recipe = response.data;
 
-              case 2:
-                recipe = _context.sent;
-                _this.recipe = recipe.data;
+                  _this.setImageUrl(_this.id);
 
-              case 4:
+                  _this.getIngredients(_this.id);
+                })["catch"](function (error) {
+                  if (error.response.status = 404) {
+                    var Toast = swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000,
+                      timerProgressBar: true,
+                      onOpen: function onOpen(toast) {
+                        toast.addEventListener('mouseenter', swal.stopTimer);
+                        toast.addEventListener('mouseleave', swal.resumeTimer);
+                      }
+                    });
+                    Toast.fire({
+                      icon: 'error',
+                      title: error.response.data.message
+                    });
+
+                    _this.$router.push({
+                      name: '404'
+                    });
+                  }
+                });
+
+              case 1:
               case "end":
                 return _context.stop();
             }
