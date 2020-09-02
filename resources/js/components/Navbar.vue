@@ -10,28 +10,12 @@
 <script>
     export default {
         name: "Navbar",
+        props: ['isAuth'],
         data () {
             return {
             }
         },
         methods: {
-            logout(){
-                this.$Progress.start()
-                axios.post('logout')
-                    .then(res => {
-                        sessionStorage.setItem("auth", false);
-                        this.$Progress.finish()
-                        this.$router.push({name: 'login'})
-                        this.$isAuth = false
-                    })
-            },
-            isLoggedIn(){
-                if(localStorage.getItem('isLoggedIn')){
-                    return this.auth = true
-                }
-                return this.auth = false
-
-            }
         },
         created(){
         },

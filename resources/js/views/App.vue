@@ -13,6 +13,11 @@
     import Footer from "../components/Footer";
     export default {
         components: {Footer, Navbar},
+        data(){
+            return {
+                isAuth: false
+            }
+        }
     }
 </script>
 <style>

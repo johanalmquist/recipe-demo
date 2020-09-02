@@ -2422,34 +2422,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Navbar",
+  props: ['isAuth'],
   data: function data() {
     return {};
   },
-  methods: {
-    logout: function logout() {
-      var _this = this;
-
-      this.$Progress.start();
-      axios.post('logout').then(function (res) {
-        sessionStorage.setItem("auth", false);
-
-        _this.$Progress.finish();
-
-        _this.$router.push({
-          name: 'login'
-        });
-
-        _this.$isAuth = false;
-      });
-    },
-    isLoggedIn: function isLoggedIn() {
-      if (localStorage.getItem('isLoggedIn')) {
-        return this.auth = true;
-      }
-
-      return this.auth = false;
-    }
-  },
+  methods: {},
   created: function created() {},
   computed: {
     appName: function appName() {
@@ -3176,6 +3153,11 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     Footer: _components_Footer__WEBPACK_IMPORTED_MODULE_1__["default"],
     Navbar: _components_Navbar__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      isAuth: false
+    };
   }
 });
 
@@ -3596,6 +3578,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Admin",
@@ -3610,9 +3593,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
+    logout: function logout() {
+      var _this = this;
+
+      this.$Progress.start();
+      axios.post('/logout').then(function (res) {
+        sessionStorage.removeItem('auth');
+
+        _this.$Progress.finish();
+
+        var Toast = swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          onOpen: function onOpen(toast) {
+            toast.addEventListener('mouseenter', swal.stopTimer);
+            toast.addEventListener('mouseleave', swal.resumeTimer);
+          }
+        });
+        Toast.fire({
+          icon: 'success',
+          title: 'Du är nu utloggad'
+        });
+
+        _this.$router.push('/login');
+      });
+    },
     getRecipes: function getRecipes() {
       var _arguments = arguments,
-          _this = this;
+          _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var page, respose;
@@ -3626,7 +3637,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 respose = _context.sent;
-                _this.recipes = respose.data;
+                _this2.recipes = respose.data;
 
               case 5:
               case "end":
@@ -3640,15 +3651,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       $('#newRecipeModal').modal('show');
     },
     createRecipe: function createRecipe() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$Progress.start();
       this.loading = true;
       this.form.post('/api/recipes').then(function (data) {
-        _this2.loading = false;
+        _this3.loading = false;
         $('#newRecipeModal').modal('hide');
 
-        _this2.$Progress.finish();
+        _this3.$Progress.finish();
 
         var Toast = swal.mixin({
           toast: true,
@@ -3666,7 +3677,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           title: 'Nytt recepet är skapat'
         });
 
-        _this2.$router.push({
+        _this3.$router.push({
           name: 'admin.recipe',
           params: {
             id: data.data.id
@@ -47641,6 +47652,20 @@ var render = function() {
               }
             },
             [_vm._v("Nytt Recpet")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-secondary btn-sm",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.logout()
+                }
+              }
+            },
+            [_vm._v("Logga ut")]
           )
         ])
       ])

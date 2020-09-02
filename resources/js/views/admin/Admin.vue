@@ -4,6 +4,7 @@
             <div class="col-md-12">
                 <div class="float-right">
                     <button class="btn btn-success" @click.prevent="showModal()">Nytt Recpet</button>
+                    <button class="btn btn-secondary btn-sm" @click.prevent="logout()">Logga ut</button>
                 </div>
             </div>
         </div>
@@ -74,6 +75,30 @@
             }
         },
         methods: {
+            logout(){
+                this.$Progress.start()
+                axios.post('/logout')
+                    .then(res => {
+                        sessionStorage.removeItem('auth')
+                        this.$Progress.finish()
+                        const Toast = swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            onOpen: (toast) => {
+                                toast.addEventListener('mouseenter', swal.stopTimer)
+                                toast.addEventListener('mouseleave', swal.resumeTimer)
+                            }
+                        })
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Du är nu utloggad'
+                        })
+                        this.$router.push('/login')
+                    })
+            },
             async getRecipes(page = 1){
                 const respose = await axios.get('api/recipes?page='+ page);
                 this.recipes = respose.data
