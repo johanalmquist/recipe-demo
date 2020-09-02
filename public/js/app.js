@@ -2935,7 +2935,22 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.loading = false;
         _this.edit = false;
-        _this.how_to = _this.form.newHowTo;
+        var Toast = swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          onOpen: function onOpen(toast) {
+            toast.addEventListener('mouseenter', swal.stopTimer);
+            toast.addEventListener('mouseleave', swal.resumeTimer);
+          }
+        });
+        Toast.fire({
+          icon: 'success',
+          title: 'Uppdaterat'
+        });
+        _this.how_to = data.data.how_to;
       });
     }
   }

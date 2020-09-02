@@ -67,7 +67,23 @@
                         this.$Progress.finish()
                         this.loading = false
                         this.edit = false
-                        this.how_to = this.form.newHowTo
+                        const Toast = swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            onOpen: (toast) => {
+                                toast.addEventListener('mouseenter', swal.stopTimer)
+                                toast.addEventListener('mouseleave', swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Uppdaterat'
+                        })
+                        this.how_to = data.data.how_to
                     })
 
             }
