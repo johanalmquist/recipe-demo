@@ -39,6 +39,7 @@ import Home from './views/Home'
 import Recipe from "./views/Recipe";
 import Login from "./views/Login";
 import ShowRecipe from "./views/admin/recipe/ShowRecipe";
+import NotFound from "./views/NotFound";
 
 const router = new VueRouter({
     mode: 'history',
@@ -69,6 +70,12 @@ const router = new VueRouter({
             name: 'admin.recipe',
             component: ShowRecipe,
             meta: {requiresAuth: true}
+        },
+        {
+            path: '/404',
+            name: '404',
+            component: NotFound,
+
         }
     ],
 });

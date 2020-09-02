@@ -63,6 +63,9 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
+        if(!$recipe){
+            return response('not found', 404);
+        }
         return $recipe;
     }
 
