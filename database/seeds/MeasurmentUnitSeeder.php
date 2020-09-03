@@ -12,25 +12,31 @@ class MeasurmentUnitSeeder extends Seeder
     public function run()
     {
         \Illuminate\Support\Facades\DB::table('measurment_units')->insert([
-            'name' => 'DL'
-        ]);
-        \Illuminate\Support\Facades\DB::table('measurment_units')->insert([
             'name' => 'L'
         ]);
         \Illuminate\Support\Facades\DB::table('measurment_units')->insert([
-            'name' => 'CL'
+            'name' => 'dl'
         ]);
         \Illuminate\Support\Facades\DB::table('measurment_units')->insert([
-            'name' => 'ML'
+            'name' => 'msk'
         ]);
         \Illuminate\Support\Facades\DB::table('measurment_units')->insert([
-            'name' => 'MSK'
+            'name' => 'tsk'
         ]);
         \Illuminate\Support\Facades\DB::table('measurment_units')->insert([
-            'name' => 'TSK'
+            'name' => 'krm'
         ]);
         \Illuminate\Support\Facades\DB::table('measurment_units')->insert([
-            'name' => 'KRM'
+            'name' => 'kg'
+        ]);
+        \Illuminate\Support\Facades\DB::table('measurment_units')->insert([
+            'name' => 'hg'
+        ]);
+        \Illuminate\Support\Facades\DB::table('measurment_units')->insert([
+            'name' => 'g'
+        ]);
+        \Illuminate\Support\Facades\DB::table('measurment_units')->insert([
+            'name' => 'st'
         ]);
 
     }
