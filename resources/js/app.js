@@ -40,6 +40,7 @@ import Recipe from "./views/Recipe";
 import Login from "./views/Login";
 import ShowRecipe from "./views/admin/recipe/ShowRecipe";
 import NotFound from "./views/NotFound";
+import Search from "./views/Search";
 
 const router = new VueRouter({
     mode: 'history',
@@ -70,6 +71,11 @@ const router = new VueRouter({
             name: 'admin.recipe',
             component: ShowRecipe,
             meta: {requiresAuth: true}
+        },
+        {
+            path: '/search',
+            name: 'search',
+            component: Search
         },
         {
             path: '/404',
@@ -108,6 +114,6 @@ router.beforeEach((to, from, next) => {
 const app = new Vue({
     el: '#app',
     components: { App },
-    router,
+    router
 });
 

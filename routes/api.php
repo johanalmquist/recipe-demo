@@ -33,4 +33,4 @@ Route::post('recipe/{recipe}/image', 'API\RecipeImageController@store');
 Route::get('recipe/{recipe}/image', 'API\RecipeImageController@show');
 Route::post('recipe/{recipe}/image/update', 'API\RecipeImageController@update');
 Route::delete('recipe/{recipe}/image', 'API\RecipeImageController@destroy');
-
+Route::get('search/{q}', 'API\SearchController@search');
