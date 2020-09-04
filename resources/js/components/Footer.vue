@@ -2,12 +2,12 @@
     <footer class="mt-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">&copy; Johan Almquist</div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-sm-4 col-xs-4">&copy; Johan Almquist</div>
+                <div class="col-md-4 col-sm-4 col-xs-4">
                     API version: {{version}}
                     Client version: 1.0-beta
                 </div>
-                <div class="col-md-4"><a href="/admin">Admin</a></div>
+                <div class="col-md-4 col-sm-4 col-xs-4"><a href="/admin">Admin</a></div>
             </div>
         </div>
     </footer>

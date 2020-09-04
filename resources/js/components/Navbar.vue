@@ -9,6 +9,9 @@
                 <li class="nav-item">
                     <router-link class="nav-link" :to="{ name: 'search' }">Sök efter ett recpet</router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ name: 'admin' }">Admin</router-link>
+                </li>
             </ul>
         </div>
     </nav>
