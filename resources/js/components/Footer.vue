@@ -35,8 +35,6 @@
         position: relative;
         bottom: 0;
         width: 100%;
-        height: 30px; /* Set the fixed height of the footer here */
-        line-height: 30px; /* Vertically center the text there */
         background-color: #2a9055;
         color: #ffffff;
     }

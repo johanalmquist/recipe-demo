@@ -8554,7 +8554,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\nfooter[data-v-61a7c374] {\n    position: relative;\n    bottom: 0;\n    width: 100%;\n    height: 30px; /* Set the fixed height of the footer here */\n    line-height: 30px; /* Vertically center the text there */\n    background-color: #2a9055;\n    color: #ffffff;\n}\na[data-v-61a7c374]{\n    color: #ffffff;\n}\na[data-v-61a7c374]:hover{\n    text-decoration: underline;\n}\n", ""]);
+exports.push([module.i, "\nfooter[data-v-61a7c374] {\n    position: relative;\n    bottom: 0;\n    width: 100%;\n    background-color: #2a9055;\n    color: #ffffff;\n}\na[data-v-61a7c374]{\n    color: #ffffff;\n}\na[data-v-61a7c374]:hover{\n    text-decoration: underline;\n}\n", ""]);
 
 // exports
 
