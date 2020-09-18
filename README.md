@@ -1,7 +1,7 @@
 #Minna favoti recpet
 
 ##Demo 
-https://staging.recept.johanalmquist.dev/
+https://recept.johanalmquist.dev/
 ###Login
 - Anv: user@exempel.demo
 - Lösen: password
